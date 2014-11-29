@@ -1,0 +1,44 @@
+package com.example.weatherdresser;
+import com.sendgrid.*;
+import com.sendgrid.SendGrid.Email;
+
+public class SendEmail {
+
+	private String username = "bettkd";
+	private String password = "FBHacks";
+	private String from_email;
+	private String to_name;
+	private String to_email;
+	private String subject;
+	private String text;
+	
+	public SendEmail(String from_email){
+		this.from_email = from_email;
+	}
+	
+	public void compose(String to_name, String to_email, String subject, String text){
+		this.to_name = to_name;
+		this.to_email = to_email;
+		this.subject = subject;
+		this.text = text;
+		
+		sendEmail();
+	}
+	
+	public void sendEmail(){
+		SendGrid sendgrid = new SendGrid(username, password);
+		Email email = new Email();
+		email.addTo(to_email);
+		email.addToName(to_name);
+		email.setFrom(from_email);
+		email.setSubject(subject);
+		email.setText(text);
+		
+		try {
+			sendgrid.send(email);
+		} catch (SendGridException e) {
+			System.out.print("Error: ");
+			System.err.println("There was something wrong with the information");
+		}
+	}
+}
